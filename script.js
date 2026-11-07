@@ -23,24 +23,30 @@
         const headingLines = element.matches('.hd') ? [...element.querySelectorAll('.hd-inner')] : [];
         const targets = headingLines.length ? headingLines : [element];
 
-        targets.forEach((target, index) => {
+        targets.forEach((target) => {
           const lineDelay = headingLines.length
             ? Math.min(Number.parseFloat(getComputedStyle(target).getPropertyValue('--hd')) || 0, 180)
             : delay;
-          const entrance = target.animate(
-            [
-              { opacity: 0.72, transform: 'translateY(12px)', filter: 'blur(3px)' },
-              { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' },
-            ],
-            { duration: 760, delay: lineDelay, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'both' }
-          );
+          const isPhoto = target.matches('.photo');
+          const restingOpacity = Number.parseFloat(getComputedStyle(target).opacity) || 1;
+          const entrance = target.animate(isPhoto
+            ? [
+                { opacity: restingOpacity * 0.72, transform: 'scale(1.04)' },
+                { opacity: restingOpacity, transform: 'scale(1)' },
+              ]
+            : [
+                { opacity: 0.76, transform: 'translateY(12px)' },
+                { opacity: 1, transform: 'translateY(0)' },
+              ],
+          { duration: isPhoto ? 1050 : (headingLines.length ? 820 : 680), delay: lineDelay, easing: 'cubic-bezier(.16, 1, .3, 1)', fill: 'both' });
           entrance.addEventListener('finish', () => entrance.cancel(), { once: true });
         });
         observer.unobserve(element);
       });
     }, { threshold: 0.02, rootMargin: '0px 0px 120px 0px' });
 
-    document.querySelectorAll('.rise, .hd').forEach((element) => revealObserver.observe(element));
+    document.querySelectorAll('.rise, .hd, .photo, .trust__lead, .collections__sub, .anatomy__lead, .anatomy__spec, .final-cta__action, .final-cta__reassure')
+      .forEach((element) => revealObserver.observe(element));
   }
 
   /* -------- mobile menu -------- */
