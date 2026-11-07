@@ -6,7 +6,7 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (preloader && document.documentElement.classList.contains('is-loading')) {
     const loaderStartedAt = performance.now();
-    const minimumLoaderTime = prefersReducedMotion ? 0 : 1280;
+    const minimumLoaderTime = prefersReducedMotion ? 0 : 1279;
     let loaderReleaseRequested = false;
     const releasePreloader = () => {
       if (loaderReleaseRequested) return;
@@ -32,7 +32,7 @@
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  /* -------- calm, progressive section entrances -------- */
+  /* -------- unified, progressive block entrances -------- */
   if ('IntersectionObserver' in window && !prefersReducedMotion) {
     document.documentElement.classList.add('motion-ready');
     const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -49,32 +49,19 @@
         const delay = Math.min(parsedDelay, 280);
 
         element.classList.add('is-in');
-        const headingLines = element.matches('.hd') ? [...element.querySelectorAll('.hd-inner')] : [];
-        const targets = headingLines.length ? headingLines : [element];
-
-        targets.forEach((target) => {
-          const lineDelay = headingLines.length
-            ? Math.min(Number.parseFloat(getComputedStyle(target).getPropertyValue('--hd')) || 0, 180)
-            : delay;
-          const isPhoto = target.matches('.photo');
-          const restingOpacity = Number.parseFloat(getComputedStyle(target).opacity) || 1;
-          const entrance = target.animate(isPhoto
-            ? [
-                { opacity: restingOpacity * 0.76, transform: 'scale(1.035)' },
-                { opacity: restingOpacity, transform: 'scale(1)' },
-              ]
-            : [
-                { opacity: 0.82, transform: 'translateY(12px)' },
-                { opacity: 1, transform: 'translateY(0)' },
-              ],
-          { duration: isPhoto ? 1320 : (headingLines.length ? 1040 : 920), delay: lineDelay, easing: 'cubic-bezier(.2, .72, .2, 1)', fill: 'both' });
-          entrance.addEventListener('finish', () => entrance.cancel(), { once: true });
-        });
+        const entrance = element.animate(
+          [
+            { opacity: 0.88, transform: 'translateY(16px)' },
+            { opacity: 1, transform: 'translateY(0)' },
+          ],
+          { duration: 1240, delay, easing: 'cubic-bezier(.2, .72, .2, 1)', fill: 'both' }
+        );
+        entrance.addEventListener('finish', () => entrance.cancel(), { once: true });
         observer.unobserve(element);
       });
     }, { threshold: 0.02, rootMargin: '0px 0px 120px 0px' });
 
-    document.querySelectorAll('.rise, .hd, .photo, .trust__lead, .collections__sub, .anatomy__lead, .anatomy__spec, .final-cta__action, .final-cta__reassure, .section-transition')
+    document.querySelectorAll('.hero, .trust__top, .trust__card, .collections__head, .collection-card, .anatomy__grid, .process__heading, .process__item, .final-cta, .footer__grid, .footer__legal, .section-transition')
       .forEach((element) => revealObserver.observe(element));
   }
 
