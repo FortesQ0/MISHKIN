@@ -442,7 +442,7 @@ html.is-loading{ overflow: hidden; }
 }
 .collections__sub{
   max-width: 40ch; font-size: 16.5px; line-height: 1.6; text-wrap: pretty;
-  margin-top: clamp(48px, 4.6vw, 66px);
+  margin-top: calc(clamp(48px, 4.6vw, 66px) + clamp(17px, 1.1vw, 19px));
   color: var(--fg-70);
 }
 
