@@ -6,7 +6,7 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (preloader && document.documentElement.classList.contains('is-loading')) {
     const loaderStartedAt = performance.now();
-    const minimumLoaderTime = prefersReducedMotion ? 0 : 460;
+    const minimumLoaderTime = prefersReducedMotion ? 0 : 1280;
     let loaderReleaseRequested = false;
     const releasePreloader = () => {
       if (loaderReleaseRequested) return;
@@ -21,7 +21,7 @@
 
     if (document.readyState === 'complete') releasePreloader();
     else window.addEventListener('load', releasePreloader, { once: true });
-    window.setTimeout(releasePreloader, 1100);
+    window.setTimeout(releasePreloader, 1950);
   }
 
   /* -------- header state on scroll -------- */
