@@ -28,6 +28,8 @@
   --sp-4: 40px; --sp-5: 64px; --sp-6: 96px; --sp-7: 160px;
 
   --pad: clamp(20px, 5vw, 96px);
+  --page-gutter: max(var(--pad), calc((100vw - 1440px) / 2 + var(--pad)));
+  --mobile-header-height: 96px;
   --ease: cubic-bezier(.22, 1, .36, 1);
 }
 
@@ -100,9 +102,9 @@ html.is-loading{ overflow: hidden; }
 }
 
 .section-inner{
-  max-width: 1440px;
+  width:100%;
   margin: 0 auto;
-  padding: 0 var(--pad);
+  padding: 0 var(--page-gutter);
 }
 
 /* placeholder-photo cohesion — ties mismatched stock photography
@@ -218,6 +220,7 @@ html.is-loading{ overflow: hidden; }
   transition: color 320ms var(--ease);
   position: relative; padding-bottom: 3px;
 }
+.nav__link-icon{ display:none; }
 .nav__link::after{
   content:""; position:absolute; left:0; right:0; bottom:0; height:1px;
   background: var(--accent-2); transform: scaleX(0); transform-origin: left;
@@ -246,7 +249,7 @@ html.is-loading{ overflow: hidden; }
 .header__cta:hover .btn__fill{ transform: scaleX(1); }
 .header__cta:hover .btn__label{ color: var(--bg); }
 
-.burger{ display:none; flex-direction:column; gap:6px; width:28px; }
+.burger{ display:none; flex-direction:column; gap:5px; width:28px; }
 .burger span{ height:1px; background: var(--fg); width:100%; transition: transform 300ms var(--ease), opacity 300ms var(--ease); }
 
 /* =========================================================
@@ -264,7 +267,7 @@ html.is-loading{ overflow: hidden; }
   width: 54%;
   flex-shrink: 0;
   display:flex; flex-direction:column; justify-content:center;
-  padding: 0 var(--sp-5) 0 var(--pad);
+  padding: 0 var(--sp-5) 0 var(--page-gutter);
   position: relative; z-index: 2;
 }
 .hero__heading{
@@ -313,7 +316,7 @@ html.is-loading{ overflow: hidden; }
 }
 
 .hero__anchor-left{
-  position:absolute; z-index: 3; left: var(--pad); bottom: 44px;
+  position:absolute; z-index: 3; left: var(--page-gutter); bottom: 44px;
   font-family: var(--f-body);
   font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-55);
 }
@@ -439,10 +442,7 @@ html.is-loading{ overflow: hidden; }
 }
 .collections__sub{
   max-width: 40ch; font-size: 16.5px; line-height: 1.6; text-wrap: pretty;
-  /* nudged down so its top lines up with the lowercase letter-bodies of the
-     heading (the part that reads as the "main mass" of the type), not with
-     the taller capital ascender — a deliberate optical alignment, not a bug */
-  margin-top: clamp(10px, 1.4vw, 22px);
+  margin-top: clamp(48px, 4.6vw, 66px);
   color: var(--fg-70);
 }
 
@@ -497,7 +497,7 @@ html.is-loading{ overflow: hidden; }
   padding-top:var(--sp-3);
 }
 .anatomy__text{
-  padding: var(--sp-6) var(--pad);
+  padding: var(--sp-6) var(--pad) var(--sp-6) var(--page-gutter);
   display:flex; flex-direction:column; justify-content:center;
 }
 .anatomy__heading{
@@ -739,7 +739,7 @@ html.is-loading{ overflow: hidden; }
 
 @media (max-width: 900px){
   .hero{ height:auto; min-height:0; overflow:visible; flex-direction:column; }
-  .hero__media{ width:100%; height:clamp(260px, 38svh, 430px); flex:none; order:1; }
+  .hero__media{ width:100%; height:clamp(260px, 38svh, 430px); flex:none; order:1; margin-top:var(--mobile-header-height); }
   .hero__content{ width:100%; flex:none; order:2; padding:40px var(--pad); }
   .hero__heading{ font-size:clamp(2.45rem, 8.5vw, 4.4rem); }
   .hero__sub{ max-width:42ch; margin-bottom:var(--sp-3); }
@@ -768,7 +768,7 @@ html.is-loading{ overflow: hidden; }
 @media (max-width: 900px){
   body{ background-attachment:scroll; }
   section[id],footer[id]{ scroll-margin-top:calc(88px + env(safe-area-inset-top)); }
-  .header{ padding-top:max(16px, env(safe-area-inset-top)); padding-left:max(var(--pad), env(safe-area-inset-left)); padding-right:max(var(--pad), env(safe-area-inset-right)); }
+  .header{ padding-top:max(16px, env(safe-area-inset-top)); padding-left:max(var(--pad), env(safe-area-inset-left)); padding-right:max(var(--pad), env(safe-area-inset-right)); background:var(--bg); border-bottom:1px solid var(--line); }
   .header.is-scrolled{ padding-top:max(12px, env(safe-area-inset-top)); }
   .nav{
     position: fixed; inset:0; z-index: 99;
@@ -785,11 +785,13 @@ html.is-loading{ overflow: hidden; }
     overscroll-behavior:contain;
   }
   .nav.is-open{ transform: translateX(0); visibility:visible; transition:transform 500ms var(--ease), visibility 0s; }
-  .nav__link{ min-height:48px; display:flex; align-items:center; font-size: clamp(2rem, 7vw, 3rem); font-family: var(--f-display); }
+  .nav__link{ width:100%; min-height:56px; display:flex; align-items:center; gap:16px; padding:10px 0 14px; border-bottom:1px solid var(--line); font-size: clamp(1.8rem, 7vw, 2.8rem); font-family: var(--f-display); }
+  .nav__link-icon{ display:block; width:24px; height:24px; flex:none; color:var(--accent-2); stroke:currentColor; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; }
   .header__cta{ display:none; }
   .burger{ display:flex; position:relative; z-index:101; width:48px; height:48px; padding:12px 10px; justify-content:center; flex-shrink:0; }
-  .burger[aria-expanded="true"] span:first-child{ transform: translateY(3.5px) rotate(45deg); }
-  .burger[aria-expanded="true"] span:last-child{ transform: translateY(-3.5px) rotate(-45deg); }
+  .burger[aria-expanded="true"] span:first-child{ transform: translateY(6px) rotate(45deg); }
+  .burger[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .burger[aria-expanded="true"] span:last-child{ transform: translateY(-6px) rotate(-45deg); }
   .trust{ padding-top:var(--sp-6); }
 }
 
@@ -798,7 +800,7 @@ html.is-loading{ overflow: hidden; }
   .trust{ padding:48px 0 32px; }
   .collections{ padding:24px 0 40px; }
   .hero__media{ height:clamp(240px, 36svh, 340px); }
-  .hero__content{ padding:32px var(--pad) 28px; }
+  .hero__content{ padding:48px var(--pad) 28px; }
   .hero__heading{ font-size:clamp(2.35rem, 10.5vw, 3.4rem); margin-bottom:var(--sp-2); }
   .hero__sub{ font-size:15px; margin-bottom:var(--sp-3); }
   .hero__cta-block{ gap:var(--sp-2); }
@@ -840,6 +842,11 @@ html.is-loading{ overflow: hidden; }
   .request-form{ padding:48px 24px 28px; gap:20px; }
   .field__input{ min-height:44px; font-size:16px; }
   .request-form__submit{ min-height:48px; }
+}
+
+@media (max-width: 900px){
+  .collections__head{ flex-direction:column; align-items:flex-start; gap:var(--sp-2); }
+  .collections__sub{ margin-top:0; }
 }
 
 @media (max-width: 900px) and (orientation: landscape){
@@ -888,4 +895,5 @@ html.is-loading{ overflow: hidden; }
   .process__title{ margin:0; }
   .collection-card__row{ align-items:flex-end; }
 }
+
 
