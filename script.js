@@ -1,56 +1,27 @@
 (() => {
   'use strict';
 
-  /* -------- custom cursor: metallic reticle, tracks 1:1, no lag -------- */
-  const supportsFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (supportsFinePointer) {
-    document.body.classList.add('has-custom-cursor');
-    const cursor = document.getElementById('cursor');
-
-    window.addEventListener('mousemove', (e) => {
-      cursor.style.transform = `translate3d(${e.clientX - 4}px, ${e.clientY - 3}px, 0)`;
-      cursor.classList.add('is-ready');
-    }, { passive: true });
-
-    const hoverTargets = 'a, button, input, textarea, [role="button"]';
-    document.addEventListener('mouseover', (e) => {
-      if (e.target.closest(hoverTargets)) cursor.classList.add('is-hover');
-    });
-    document.addEventListener('mouseout', (e) => {
-      if (e.target.closest(hoverTargets)) cursor.classList.remove('is-hover');
-    });
-    document.addEventListener('mouseleave', () => { cursor.classList.remove('is-ready'); });
-  }
-
-  /* -------- hero photo: subtle 3D tilt toward the cursor -------- */
-  const heroMedia = document.getElementById('heroMedia');
-  const heroMediaImg = document.getElementById('heroMediaImg');
-
-  if (heroMedia && heroMediaImg && supportsFinePointer) {
-    let ticking = false;
-    let lastX = 0.5, lastY = 0.5;
-
-    const applyTilt = () => {
-      const rotY = (lastX - 0.5) * 14;   // left/right cursor -> Y-axis rotation
-      const rotX = (0.5 - lastY) * 8;    // up/down cursor -> X-axis rotation
-      heroMediaImg.style.transform =
-        `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.06)`;
-      ticking = false;
+  /* -------- brief branded loading veil -------- */
+  const preloader = document.getElementById('preloader');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (preloader && document.documentElement.classList.contains('is-loading')) {
+    const loaderStartedAt = performance.now();
+    const minimumLoaderTime = prefersReducedMotion ? 0 : 1279;
+    let loaderReleaseRequested = false;
+    const releasePreloader = () => {
+      if (loaderReleaseRequested) return;
+      loaderReleaseRequested = true;
+      window.removeEventListener('load', releasePreloader);
+      const remaining = Math.max(0, minimumLoaderTime - (performance.now() - loaderStartedAt));
+      window.setTimeout(() => {
+        preloader.classList.add('is-hidden');
+        document.documentElement.classList.remove('is-loading');
+      }, remaining);
     };
 
-    heroMedia.addEventListener('mousemove', (e) => {
-      const rect = heroMedia.getBoundingClientRect();
-      lastX = (e.clientX - rect.left) / rect.width;
-      lastY = (e.clientY - rect.top) / rect.height;
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(applyTilt);
-      }
-    }, { passive: true });
-
-    heroMedia.addEventListener('mouseleave', () => {
-      heroMediaImg.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-    });
+    if (document.readyState === 'complete') releasePreloader();
+    else window.addEventListener('load', releasePreloader, { once: true });
+    window.setTimeout(releasePreloader, 1950);
   }
 
   /* -------- header state on scroll -------- */
@@ -61,58 +32,38 @@
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  /* -------- preloader: page reveal is sequenced after this hides -------- */
-  const preloader = document.getElementById('preloader');
-  const MIN_PRELOAD_MS = 900;
-  const startedAt = Date.now();
-
-  const hidePreloader = () => {
-    const elapsed = Date.now() - startedAt;
-    const wait = Math.max(0, MIN_PRELOAD_MS - elapsed);
-    setTimeout(() => {
-      preloader.classList.add('is-hidden');
-      document.documentElement.classList.remove('is-loading');
-      // the hero's own text/photo entrance only starts once the preloader
-      // is out of the way, so the sequence reads as one continuous reveal
-      document.querySelector('.hero').classList.add('is-in');
-    }, wait);
-  };
-
-  if (document.readyState === 'complete') {
-    hidePreloader();
-  } else {
-    window.addEventListener('load', hidePreloader);
-  }
-
-  /* -------- staggered entrance reveals -------- */
-  const reveal = (el) => el.classList.add('is-in');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        reveal(entry.target);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
-
-  document.querySelectorAll('section').forEach((section) => {
-    if (section.classList.contains('hero')) return;
-    observer.observe(section);
-  });
-
-  // collection cards stagger individually (already carry --d inline)
-  document.querySelectorAll('.collection-card').forEach((card) => {
-    const cardObserver = new IntersectionObserver((entries) => {
+  /* -------- calm, progressive section entrances -------- */
+  if ('IntersectionObserver' in window && !prefersReducedMotion) {
+    document.documentElement.classList.add('motion-ready');
+    const revealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-in');
-          cardObserver.unobserve(entry.target);
+        if (!entry.isIntersecting) return;
+        const element = entry.target;
+        if (element.matches('.section-transition')) {
+          element.classList.add('is-in');
+          observer.unobserve(element);
+          return;
         }
+        const delayValue = getComputedStyle(element).getPropertyValue('--d').trim();
+        const parsedDelay = Number.parseFloat(delayValue) || 0;
+        const delay = Math.min(parsedDelay, 280);
+
+        element.classList.add('is-in');
+        const entrance = element.animate(
+          [
+            { opacity: 0.88, transform: 'translateY(16px)' },
+            { opacity: 1, transform: 'translateY(0)' },
+          ],
+          { duration: 1240, delay, easing: 'cubic-bezier(.2, .72, .2, 1)', fill: 'both' }
+        );
+        entrance.addEventListener('finish', () => entrance.cancel(), { once: true });
+        observer.unobserve(element);
       });
-    }, { threshold: 0.2 });
-    cardObserver.observe(card);
-  });
+    }, { threshold: 0.04, rootMargin: '0px 0px 96px 0px' });
+
+    document.querySelectorAll('.hero, .trust__top, .trust__card, .collections__head, .collection-card, .anatomy__grid, .process__heading, .process__item, .final-cta, .footer__grid, .footer__legal, .section-transition')
+      .forEach((element) => revealObserver.observe(element));
+  }
 
   /* -------- mobile menu -------- */
   const burger = document.getElementById('burger');
@@ -236,8 +187,8 @@
     document.querySelectorAll('.field.is-invalid').forEach((f) => f.classList.remove('is-invalid'));
     requestModelField.value = modelName || '';
     requestFormSub.textContent = modelName
-      ? `По модели «${modelName}». Перезвоним и\u00A0поможем с\u00A0оформлением.`
-      : 'Перезвоним и\u00A0поможем подобрать модель — без\u00A0навязчивых звонков после.';
+      ? `Вы выбрали модель «${modelName}». Форма пока не подключена.`
+      : 'Форма пока не подключена к приёму заявок.';
   };
 
   document.querySelectorAll('[data-open-request]').forEach((btn) => {
@@ -282,9 +233,8 @@
 
     if (!valid) return;
 
-    // NOTE: no backend is wired up yet — this only simulates a successful
-    // submission client-side. Wire this block to a real endpoint (e.g. your
-    // CRM webhook or a form service) before going live.
+    // No submission endpoint is configured. Keep the response explicit so
+    // the interface never claims that a request was received.
     requestForm.hidden = true;
     requestSuccess.hidden = false;
   });
