@@ -6,7 +6,7 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (preloader && document.documentElement.classList.contains('is-loading')) {
     const loaderStartedAt = performance.now();
-    const minimumLoaderTime = prefersReducedMotion ? 0 : 1279;
+    const minimumLoaderTime = prefersReducedMotion ? 0 : 1179;
     let loaderReleaseRequested = false;
     const releasePreloader = () => {
       if (loaderReleaseRequested) return;
@@ -32,7 +32,7 @@
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  /* -------- unified, progressive block entrances -------- */
+  /* -------- unified, visible scroll entrances -------- */
   if ('IntersectionObserver' in window && !prefersReducedMotion) {
     document.documentElement.classList.add('motion-ready');
     const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -45,24 +45,18 @@
           return;
         }
         const delayValue = getComputedStyle(element).getPropertyValue('--d').trim();
-        const parsedDelay = Number.parseFloat(delayValue) || 0;
-        const delay = Math.min(parsedDelay, 280);
-
+        element.style.setProperty('--reveal-delay', `${Math.min(Number.parseFloat(delayValue) || 0, 320)}ms`);
         element.classList.add('is-in');
-        const entrance = element.animate(
-          [
-            { opacity: 0.88, transform: 'translateY(16px)' },
-            { opacity: 1, transform: 'translateY(0)' },
-          ],
-          { duration: 1240, delay, easing: 'cubic-bezier(.2, .72, .2, 1)', fill: 'both' }
-        );
-        entrance.addEventListener('finish', () => entrance.cancel(), { once: true });
         observer.unobserve(element);
       });
-    }, { threshold: 0.02, rootMargin: '0px 0px 120px 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px 48px 0px' });
 
-    document.querySelectorAll('.hero, .trust__top, .trust__card, .collections__head, .collection-card, .anatomy__grid, .process__heading, .process__item, .final-cta, .footer__grid, .footer__legal, .section-transition')
-      .forEach((element) => revealObserver.observe(element));
+    const revealSelector = '.header__inner, .hero, .trust__top, .trust__card, .collections__head, .collection-card, .anatomy__grid, .process__heading, .process__item, .final-cta, .footer__brand, .footer__col, .footer__legal';
+    document.querySelectorAll(revealSelector).forEach((element) => {
+      element.classList.add('scroll-reveal');
+      revealObserver.observe(element);
+    });
+    document.querySelectorAll('.section-transition').forEach((element) => revealObserver.observe(element));
   }
 
   /* -------- mobile menu -------- */

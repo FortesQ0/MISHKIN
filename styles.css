@@ -1255,7 +1255,7 @@ body.has-custom-cursor,body.has-custom-cursor a,body.has-custom-cursor button{ c
   opacity:0;
   visibility:hidden;
   pointer-events:none;
-  gap:20px;
+  gap:40px;
   background:radial-gradient(ellipse at 50% 46%, oklch(19% .012 265) 0%, oklch(15% .008 265) 52%, oklch(12% .006 265) 100%);
   transition:opacity 850ms var(--ease),visibility 0s linear 850ms;
 }
@@ -1264,26 +1264,27 @@ html.is-loading .preloader:not(.is-hidden){ opacity:1; visibility:visible; point
 .preloader__lockup{ display:flex; flex-direction:column; align-items:center; gap:14px; }
 .preloader__mark{
   display:grid;
-  width:42px;
-  height:42px;
+  width:84px;
+  height:84px;
   place-items:center;
   color:var(--fg);
   background:var(--surface);
   border:1px solid var(--line);
-  border-radius:11px;
+  border-radius:22px;
   opacity:1;
-  animation:preloaderMark 1180ms var(--ease) both;
+  animation:preloaderMark 1080ms var(--ease) both;
 }
-.preloader__mark svg{ width:26px; height:26px; }
-.preloader__hand{ transform-origin:20px 20px; animation:preloaderHand 1180ms var(--ease) both; }
-.preloader__word{ color:var(--fg); font:400 18px/1 var(--f-display); letter-spacing:.04em; }
-.preloader__bar{ width:132px; height:1px; background:var(--line); overflow:visible; }
+.preloader__mark svg{ width:52px; height:52px; }
+.preloader__hand{ transform-origin:20px 20px; animation:preloaderHand 1080ms var(--ease) both; }
+.preloader__word{ color:var(--fg); font:400 36px/1 var(--f-display); letter-spacing:.04em; }
+.preloader__lockup{ gap:28px; }
+.preloader__bar{ width:264px; height:2px; background:var(--line); overflow:visible; }
 .preloader__bar-fill{
   inset:0;
   background:linear-gradient(90deg,transparent,var(--accent-2),transparent);
   transform:scaleX(0);
   transform-origin:center;
-  animation:preloaderDraw 1180ms var(--ease) 80ms both;
+  animation:preloaderDraw 1080ms var(--ease) 80ms both;
 }
 @keyframes preloaderMark{ from{opacity:.5;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
 @keyframes preloaderHand{ from{transform:rotate(-34deg)} to{transform:rotate(0)} }
@@ -1336,6 +1337,54 @@ html.motion-ready .section-transition:not(.is-in)::before{ opacity:.3; transform
 .section-transition.is-in::before{ opacity:.78; transform:scaleX(1); }
 .btn--hero:hover,.btn--hero:focus-visible{ transform:none; box-shadow:0 0 0 1px oklch(68% .15 265 / .2),0 5px 24px oklch(43% .15 265 / .2),inset 0 1px 0 oklch(94% .02 265 / .22); }
 .hero__cta-wrap:hover .btn__glow,.hero__cta-wrap:focus-within .btn__glow{ opacity:.23; transform:none; }
+
+/* Distinct, synchronized reveals for each complete content block. */
+html.motion-ready .scroll-reveal:not(.is-in){
+  opacity:0;
+  transform:translate3d(0,34px,0);
+  filter:blur(5px);
+  transition:opacity 1240ms var(--ease) var(--reveal-delay,0ms),transform 1240ms var(--ease) var(--reveal-delay,0ms),filter 980ms var(--ease) var(--reveal-delay,0ms);
+  will-change:opacity,transform,filter;
+}
+html.motion-ready .scroll-reveal.is-in{
+  opacity:1;
+  transform:translate3d(0,0,0);
+  filter:blur(0);
+  transition:opacity 1240ms var(--ease) var(--reveal-delay,0ms),transform 1240ms var(--ease) var(--reveal-delay,0ms),filter 980ms var(--ease) var(--reveal-delay,0ms);
+}
+
+/* The hero button keeps its satin depth, with a clear but restrained hover response. */
+.btn--hero{
+  background:linear-gradient(145deg,oklch(55% .15 264) 0%,oklch(50% .16 265) 58%,oklch(45% .15 268) 100%);
+  box-shadow:0 8px 22px -9px oklch(31% .13 265 / .62),0 2px 5px oklch(15% .05 265 / .42),inset 0 1px 0 oklch(94% .02 265 / .2),inset 0 -1px 0 oklch(30% .11 265 / .24);
+  transition:transform 650ms var(--ease),filter 650ms var(--ease),box-shadow 650ms var(--ease),background 650ms var(--ease);
+}
+.btn--hero::after{
+  opacity:.72;
+  background:linear-gradient(145deg,oklch(96% .02 265 / .18) 0%,oklch(88% .03 265 / .07) 26%,transparent 56%,oklch(28% .1 265 / .12) 100%);
+  transition:opacity 650ms var(--ease);
+}
+.btn__glow{ opacity:.16; transform:scale(.96); transition:opacity 700ms var(--ease),transform 850ms var(--ease); }
+.process__item{ grid-template-columns:68px 40px minmax(0,1fr); }
+.process__icon{ width:64px; height:64px; }
+.process__icon svg{ width:40px; height:40px; }
+@media(hover:hover) and (pointer:fine){
+  .btn--hero:hover,.btn--hero:focus-visible{
+    transform:translateY(-2px);
+    filter:brightness(1.07) saturate(1.04);
+    box-shadow:0 12px 26px -8px oklch(32% .14 265 / .68),0 3px 7px oklch(15% .05 265 / .44),inset 0 1px 0 oklch(96% .02 265 / .24),inset 0 -1px 0 oklch(28% .1 265 / .22);
+  }
+  .btn--hero:hover::after,.btn--hero:focus-visible::after{ opacity:1; }
+  .hero__cta-wrap:hover .btn__glow,.hero__cta-wrap:focus-within .btn__glow{ opacity:.3; transform:scale(1.04); }
+}
+@media(prefers-reduced-motion:reduce){
+  html.motion-ready .scroll-reveal:not(.is-in){ opacity:1;transform:none;filter:none; }
+  html.motion-ready .scroll-reveal,html.motion-ready .scroll-reveal.is-in{ transition:none; }
+  .btn--hero,.btn--hero::after,.btn__glow{ transition:none; }
+}
+@media(max-width:900px){
+  .process__item{ grid-template-columns:68px 40px minmax(0,1fr); }
+}
 
 @media(prefers-reduced-motion:reduce){
   .preloader__mark,.preloader__hand,.preloader__bar-fill{ animation:none; }
