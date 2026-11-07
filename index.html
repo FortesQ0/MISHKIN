@@ -74,10 +74,22 @@
     </a>
 
     <nav class="nav" id="nav">
-      <a href="#collections" class="nav__link">Дома</a>
-      <a href="#trust" class="nav__link">Гарантии</a>
-      <a href="#process" class="nav__link">Покупка</a>
-      <a href="#contact" class="nav__link">Контакты</a>
+      <a href="#collections" class="nav__link">
+        <svg class="nav__link-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="m3.5 10.5 8.5-7 8.5 7M5.5 9v11h13V9M9.5 20v-6h5v6"/></svg>
+        <span>Дома</span>
+      </a>
+      <a href="#trust" class="nav__link">
+        <svg class="nav__link-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 3.5 19 6v5.2c0 4.3-2.8 7.4-7 9.3-4.2-1.9-7-5-7-9.3V6l7-2.5Z"/><path d="m9 12 2 2 4.5-4.5"/></svg>
+        <span>Гарантии</span>
+      </a>
+      <a href="#process" class="nav__link">
+        <svg class="nav__link-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><circle cx="12" cy="12.5" r="7.5"/><path d="M9.5 3h5l.8 2.2h-6.6L9.5 3ZM10 12.5h2.5l2.2 2.2"/></svg>
+        <span>Покупка</span>
+      </a>
+      <a href="#contact" class="nav__link">
+        <svg class="nav__link-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M6 3.5h3.2l1.5 4.2-2 1.8a14.2 14.2 0 0 0 5.8 5.8l1.8-2 4.2 1.5V18a2 2 0 0 1-2.1 2C10.2 19.5 4.5 13.8 4 5.6A2 2 0 0 1 6 3.5Z"/></svg>
+        <span>Контакты</span>
+      </a>
     </nav>
 
     <a href="#collections" class="header__cta">
@@ -85,8 +97,8 @@
       <span class="btn__label">Смотреть каталог</span>
     </a>
 
-    <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
-      <span></span><span></span>
+    <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
     </button>
   </div>
 </header>
@@ -498,3 +510,4 @@
 <script src="script.js"></script>
 </body>
 </html>
+
