@@ -1,6 +1,29 @@
 (() => {
   'use strict';
 
+  /* -------- brief branded loading veil -------- */
+  const preloader = document.getElementById('preloader');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (preloader && document.documentElement.classList.contains('is-loading')) {
+    const loaderStartedAt = performance.now();
+    const minimumLoaderTime = prefersReducedMotion ? 0 : 460;
+    let loaderReleaseRequested = false;
+    const releasePreloader = () => {
+      if (loaderReleaseRequested) return;
+      loaderReleaseRequested = true;
+      window.removeEventListener('load', releasePreloader);
+      const remaining = Math.max(0, minimumLoaderTime - (performance.now() - loaderStartedAt));
+      window.setTimeout(() => {
+        preloader.classList.add('is-hidden');
+        document.documentElement.classList.remove('is-loading');
+      }, remaining);
+    };
+
+    if (document.readyState === 'complete') releasePreloader();
+    else window.addEventListener('load', releasePreloader, { once: true });
+    window.setTimeout(releasePreloader, 1100);
+  }
+
   /* -------- header state on scroll -------- */
   const header = document.getElementById('header');
   const onScroll = () => {
@@ -10,14 +33,20 @@
   window.addEventListener('scroll', onScroll, { passive: true });
 
   /* -------- calm, progressive section entrances -------- */
-  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if ('IntersectionObserver' in window && !prefersReducedMotion) {
+    document.documentElement.classList.add('motion-ready');
     const revealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const element = entry.target;
+        if (element.matches('.section-transition')) {
+          element.classList.add('is-in');
+          observer.unobserve(element);
+          return;
+        }
         const delayValue = getComputedStyle(element).getPropertyValue('--d').trim();
         const parsedDelay = Number.parseFloat(delayValue) || 0;
-        const delay = Math.min(parsedDelay, 220);
+        const delay = Math.min(parsedDelay, 280);
 
         element.classList.add('is-in');
         const headingLines = element.matches('.hd') ? [...element.querySelectorAll('.hd-inner')] : [];
@@ -31,21 +60,21 @@
           const restingOpacity = Number.parseFloat(getComputedStyle(target).opacity) || 1;
           const entrance = target.animate(isPhoto
             ? [
-                { opacity: restingOpacity * 0.72, transform: 'scale(1.04)' },
+                { opacity: restingOpacity * 0.76, transform: 'scale(1.035)' },
                 { opacity: restingOpacity, transform: 'scale(1)' },
               ]
             : [
-                { opacity: 0.76, transform: 'translateY(12px)' },
+                { opacity: 0.82, transform: 'translateY(12px)' },
                 { opacity: 1, transform: 'translateY(0)' },
               ],
-          { duration: isPhoto ? 1050 : (headingLines.length ? 820 : 680), delay: lineDelay, easing: 'cubic-bezier(.16, 1, .3, 1)', fill: 'both' });
+          { duration: isPhoto ? 1320 : (headingLines.length ? 1040 : 920), delay: lineDelay, easing: 'cubic-bezier(.2, .72, .2, 1)', fill: 'both' });
           entrance.addEventListener('finish', () => entrance.cancel(), { once: true });
         });
         observer.unobserve(element);
       });
     }, { threshold: 0.02, rootMargin: '0px 0px 120px 0px' });
 
-    document.querySelectorAll('.rise, .hd, .photo, .trust__lead, .collections__sub, .anatomy__lead, .anatomy__spec, .final-cta__action, .final-cta__reassure')
+    document.querySelectorAll('.rise, .hd, .photo, .trust__lead, .collections__sub, .anatomy__lead, .anatomy__spec, .final-cta__action, .final-cta__reassure, .section-transition')
       .forEach((element) => revealObserver.observe(element));
   }
 
