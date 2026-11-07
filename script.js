@@ -9,6 +9,7 @@
 
     window.addEventListener('mousemove', (e) => {
       cursor.style.transform = `translate3d(${e.clientX - 4}px, ${e.clientY - 3}px, 0)`;
+      cursor.classList.add('is-ready');
     }, { passive: true });
 
     const hoverTargets = 'a, button, input, textarea, [role="button"]';
@@ -18,8 +19,7 @@
     document.addEventListener('mouseout', (e) => {
       if (e.target.closest(hoverTargets)) cursor.classList.remove('is-hover');
     });
-    document.addEventListener('mouseleave', () => { cursor.style.opacity = '0'; });
-    document.addEventListener('mouseenter', () => { cursor.style.opacity = '1'; });
+    document.addEventListener('mouseleave', () => { cursor.classList.remove('is-ready'); });
   }
 
   /* -------- hero photo: subtle 3D tilt toward the cursor -------- */
@@ -117,18 +117,36 @@
   /* -------- mobile menu -------- */
   const burger = document.getElementById('burger');
   const nav = document.getElementById('nav');
+  const mobileNavigation = window.matchMedia('(max-width: 900px)');
+
+  const setMenuOpen = (isOpen, returnFocus = false) => {
+    nav.classList.toggle('is-open', isOpen);
+    nav.inert = mobileNavigation.matches && !isOpen;
+    nav.setAttribute('aria-hidden', String(mobileNavigation.matches && !isOpen));
+    burger.setAttribute('aria-expanded', String(isOpen));
+    burger.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+
+    if (isOpen) nav.querySelector('a')?.focus();
+    else if (returnFocus) burger.focus();
+  };
+
+  setMenuOpen(false);
+  mobileNavigation.addEventListener('change', (event) => {
+    setMenuOpen(false);
+    if (!event.matches) {
+      nav.inert = false;
+      nav.setAttribute('aria-hidden', 'false');
+    }
+  });
 
   burger.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('is-open');
-    burger.setAttribute('aria-expanded', String(isOpen));
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+    setMenuOpen(!nav.classList.contains('is-open'));
   });
 
   nav.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
-      nav.classList.remove('is-open');
-      burger.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
+      setMenuOpen(false);
     });
   });
 
@@ -168,6 +186,9 @@
   });
 
   document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+      setMenuOpen(false, true);
+    }
     if (e.key === 'Escape') closeAllModals();
   });
 
@@ -268,3 +289,4 @@
     requestSuccess.hidden = false;
   });
 })();
+
