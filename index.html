@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru" class="is-loading">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MISHKIN — часовой дистрибьютор</title>
+<title>MISHKIN | Часовой дистрибьютор</title>
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAADtUlEQVRYhcWXW0wcZRiGn39nZpfMhF2QFUw0GBOrbaI00KSNlYMpVJpYUkFqDKXaGFoLLRdob0yrQdvY2IimFxbFNCkNJemJg1YDmALGlNVQTdgCRhKsRpNqxWSbzbCnCeMFBVtYYFi263u1833fv88zM392ZwS343Q67zMMo840zXIhxCOAg/gmCIyapnkqEAg0AgaAANA0Lcs0za+AB+MMXSgeSZJK/H7/P8LlcqVGIhEv8FCC4AAIIb7VdX2TJEnSQWBrIuG387CiKH9IiqJ8DNz/PwgAZAhVVYPEf8NFjRAC0zTvLAVtiYJv3lyEJElzy0lyIuCVlRVEwhEMw5jXu+cCu3a9zJ7dVeQXbIrav6cCO3fu4Oh7R6jZVxv17AFscwsOhwMhxIrhFRUvcez9o/T0fE1n5xcLzs0TAKip2bsiePkLZTR8cIzR0Z9o+uwkU1NT1gVCoRA+n4/qvXtighcXP8vx4x8SDIXo7u7hypWBReejXoGzZ89TWbmD0tLnlwXPy8ul6dNGZFmmva2Dvv5vllwTVcAwDBoaPuLQoTfZuPEpS/B163JoPnWSpCQHIyOjXBseZnDwamwCAB2dn3PLd4u33zrIMwX5i37JmjWraT1zGk3TME2TCxcucnXwB0vikqIo9dEapmny182bVFe/RmpqCro+yfj4+Lw5t9vNl5c6SUtLA6CtvYOfx8a43NtnSWDR34Gurm4GBjwUFRUSCASJhMP09vXfNVNbu4/09On/Ml3X8Xi+o9/CvbckAFBff5iurkuUlDyHosgEQyEGBjyz/Q0b1s9+bj7dgs1m48aNPy0LLLgHZjLk9XKxrR2ALVuKOfBG3WwvOTmZrCefmD1Ocbk4d+68ZbglAZi+CuPjvwCwdm0WmqYBUFX1KpIkMeT1Ulq2nbrXDxAIBJclsOAmvDOTk5OcaW1FkRVyc58mOzub1Y8/xv79NQyPjLBtWxnXr/+6LPBMhKqq5tJj/8U79CMZGemzxydOfMI77x6JCQ4Wb8FMhBCkpLjuquXkZMcMX7aA0+nE4XDMqyVMYNWqR+fVdF1fkYDM9BtLkpXhF7eXEw6HaWlpJWJEKCosJCcnG7fbzcTERCz8kFBV9Xtg/ZKjQGZmJi6nk2vDwwAoikJBfh6Xe/vmPu1azahQVXU30BTL6jjksABkTdN6TdPMSzD8d7vdnmUDDJvNVgp4lloRT7gQYqvP5/NJAOFwOBCJRJplWf5bCPEAkEr8n5hDwBjQaLfbX/H7/b8B/AsdWS/sa081UwAAAABJRU5ErkJggg==">
 <link rel="apple-touch-icon" href="data:image/png;base64,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">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,42 +12,6 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<div class="preloader" id="preloader" aria-hidden="true">
-  <span class="preloader__mark">
-    <svg viewBox="0 0 100.749527 96.918446" fill="currentColor" aria-hidden="true">
-      <g transform="translate(-67.023774,112.000000) scale(0.100000,-0.100000)" stroke="none">
-        <path d="M1433 872 c-241 -248 -241 -248 -248 -315 -13 -116 -86 -182 -135
--120 -11 15 -20 41 -20 61 0 31 -12 47 -102 141 -57 58 -104 108 -105 110 -2
-2 -5 2 -7 0 -2 -2 41 -52 96 -111 55 -59 98 -113 96 -119 -4 -13 -231 244
--234 267 -1 8 -28 41 -59 72 -67 68 -72 81 82 -210 97 -182 107 -197 142 -211
-44 -18 74 -57 60 -78 -5 -8 -8 -37 -7 -64 2 -37 -2 -59 -16 -80 -13 -20 -16
--33 -9 -44 16 -25 45 -25 64 0 14 20 25 23 66 20 31 -2 54 -9 66 -22 22 -23
-40 -24 58 -3 10 13 10 20 -4 43 -13 22 -14 36 -7 60 7 24 5 45 -6 77 -14 43
--14 45 10 77 16 20 46 40 83 55 59 23 59 23 167 230 60 114 134 253 163 310
-30 56 53 102 51 102 -3 0 -113 -112 -245 -248z m104 6 c-35 -64 -57 -104 -141
--261 -26 -48 -57 -92 -68 -98 -30 -16 -25 -7 113 221 122 199 162 257 96 138z"/>
-        <path d="M790 765 c7 -9 15 -13 17 -11 7 7 -7 26 -19 26 -6 0 -6 -6 2 -15z"/>
-      </g>
-    </svg>
-  </span>
-  <span class="preloader__bar"><span class="preloader__bar-fill"></span></span>
-</div>
-
-
-<div class="cursor" id="cursor" aria-hidden="true">
-  <svg viewBox="0 0 24 24" overflow="visible">
-    <defs>
-      <linearGradient id="cursorMetal" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#f5f5f7"/>
-        <stop offset="45%" stop-color="#c9c9d0"/>
-        <stop offset="100%" stop-color="#8d8d95"/>
-      </linearGradient>
-    </defs>
-    <path class="cursor__tri" d="M2 2 L18 9 L9 12 L6 20 Z"
-          fill="url(#cursorMetal)" stroke="rgba(8,8,10,.5)" stroke-width="1" stroke-linejoin="round"/>
-  </svg>
-</div>
 
 <!-- ============ HEADER ============ -->
 <header class="header" id="header">
@@ -137,7 +101,7 @@
       width="1400" height="1800" loading="eager">
   </div>
 
-  <span class="hero__anchor-left rise" style="--d:1150ms">MISHKIN — часовой дистрибьютор</span>
+  <span class="hero__anchor-left rise" style="--d:1150ms">MISHKIN · часовой дистрибьютор</span>
 
   <a href="#trust" class="hero__scrolldown rise" style="--d:1150ms" aria-label="Прокрутить вниз">
     <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v15M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -150,7 +114,7 @@
 
     <div class="trust__top">
       <div class="trust__intro">
-        <h2 class="trust__heading hd"><span class="hd-line"><span class="hd-inner" style="--hd:0ms">Мы продаём не&nbsp;вещь —</span></span><span class="hd-line"><span class="hd-inner" style="--hd:110ms"><span class="hd-accent">мы продаём качество</span></span></span></h2>
+        <h2 class="trust__heading hd"><span class="hd-line"><span class="hd-inner" style="--hd:0ms">Мы продаём</span></span><span class="hd-line"><span class="hd-inner" style="--hd:110ms"><span class="hd-accent">проверенные часы</span></span></span></h2>
         <p class="trust__lead">Не&nbsp;даём обещаний, которые не&nbsp;можем подтвердить документами. Вот что стоит за&nbsp;каждой продажей.</p>
       </div>
       <div class="trust__photo">
@@ -161,7 +125,7 @@
     <ul class="trust__cards">
       <li class="trust__card rise" style="--d:0ms">
         <h3 class="trust__title">Подлинность</h3>
-        <p class="trust__text">Каждый экземпляр проходит проверку подлинности до того, как попадает в&nbsp;шоурум — с&nbsp;документальным подтверждением на&nbsp;руки.</p>
+        <p class="trust__text">Каждый экземпляр проверяем до попадания в шоурум. Документы передаём вместе с часами.</p>
       </li>
       <li class="trust__card rise" style="--d:80ms">
         <h3 class="trust__title">Гарантия</h3>
@@ -169,7 +133,7 @@
       </li>
       <li class="trust__card rise" style="--d:160ms">
         <h3 class="trust__title">Прямые поставки</h3>
-        <p class="trust__text">Работаем напрямую с&nbsp;домами и&nbsp;авторизованными бутиками — без&nbsp;серого рынка и&nbsp;посредников.</p>
+        <p class="trust__text">Работаем с часовыми домами и авторизованными бутиками.</p>
       </li>
       <li class="trust__card rise" style="--d:240ms">
         <h3 class="trust__title">Право на&nbsp;возврат</h3>
@@ -184,14 +148,14 @@
   <div class="section-inner">
     <div class="collections__head">
       <h2 class="collections__heading hd"><span class="hd-line"><span class="hd-inner" style="--hd:0ms">Дома, за&nbsp;которые</span></span><span class="hd-line"><span class="hd-inner" style="--hd:110ms"><span class="hd-accent">мы&nbsp;ручаемся</span></span></span></h2>
-      <p class="collections__sub">Каждый дом в&nbsp;подборке прошёл собственный отбор MISHKIN — по&nbsp;механике, материалам и&nbsp;репутации на&nbsp;вторичном рынке.</p>
+      <p class="collections__sub">В подборку MISHKIN входят бренды с проверенной механикой, качественными материалами и устойчивой репутацией.</p>
     </div>
 
     <div class="collections__grid">
 
       <article class="collection-card rise" style="--d:0ms"
         data-name="Valmont" data-price="от 890 000 ₽"
-        data-desc="Скелетон-хронограф с открытой архитектурой механизма — каждая шестерня видна через сапфировое стекло с обеих сторон."
+        data-desc="Скелетон-хронограф с открытой архитектурой механизма. Шестерни видны через сапфировое стекло с обеих сторон."
         data-material="Керамика, сатинированная сталь" data-movement="Швейцарский автоподзавод, скелетон"
         data-water="50 м" data-diameter="42 мм"
         data-img="https://images.unsplash.com/photo-1633451238208-11c8e6c1fed4?auto=format&fit=crop&w=1200&h=1500&q=80">
@@ -210,7 +174,7 @@
 
       <article class="collection-card rise" style="--d:80ms"
         data-name="Argentum" data-price="от 410 000 ₽"
-        data-desc="Стальная классика для ежедневной носки — тот случай, когда часы должны быть заметны только тому, кто разбирается."
+        data-desc="Стальная модель для ежедневной носки с лаконичным циферблатом и автоподзаводом."
         data-material="Полированная сталь 316L" data-movement="Швейцарский автоподзавод"
         data-water="100 м" data-diameter="40 мм"
         data-img="https://images.unsplash.com/photo-1595520407624-66b24f015830?auto=format&fit=crop&w=1200&h=1500&q=80">
@@ -229,7 +193,7 @@
 
       <article class="collection-card rise" style="--d:160ms"
         data-name="Ferro Nero" data-price="от 1 250 000 ₽"
-        data-desc="Сатинированная чёрная керамика — легче стали, твёрже её же и не боится царапин от ключей в кармане."
+        data-desc="Корпус из чёрной керамики с сатинированной отделкой."
         data-material="Черная керамика, титан" data-movement="Мануфактурный калибр"
         data-water="100 м" data-diameter="44 мм"
         data-img="https://images.unsplash.com/photo-1708651145401-6be804cd02d4?auto=format&fit=crop&w=1200&h=1500&q=80">
@@ -269,7 +233,7 @@
   </div>
 </section>
 
-<!-- ============ ANATOMY — Scheme C ============ -->
+<!-- ============ ANATOMY ============ -->
 <section class="anatomy">
   <div class="anatomy__grid">
     <div class="anatomy__text">
@@ -279,7 +243,7 @@
       <dl class="anatomy__specs">
         <div class="anatomy__spec">
           <dt>Механизм</dt>
-          <dd>Швейцарский автоподзавод либо мануфактурный калибр — без исключений</dd>
+          <dd>Швейцарский автоподзавод или мануфактурный калибр</dd>
         </div>
         <div class="anatomy__spec">
           <dt>Стекло</dt>
@@ -291,7 +255,7 @@
         </div>
         <div class="anatomy__spec">
           <dt>Влагозащита</dt>
-          <dd>От&nbsp;50&nbsp;метров — проверяется отдельно перед продажей</dd>
+          <dd>От&nbsp;50&nbsp;метров, значение проверяется перед продажей</dd>
         </div>
       </dl>
     </div>
@@ -314,7 +278,7 @@
         </span>
         <span class="process__num">01</span>
         <h3 class="process__title">Выбор модели</h3>
-        <p class="process__text">Консультируем очно в&nbsp;шоуруме или&nbsp;удалённо — подбираем по&nbsp;бюджету, механике и&nbsp;случаю.</p>
+        <p class="process__text">Подбираем модель по бюджету, механике и задаче, очно или удалённо.</p>
       </li>
       <li class="process__item rise" style="--d:90ms">
         <span class="process__icon" aria-hidden="true">
@@ -330,7 +294,7 @@
         </span>
         <span class="process__num">03</span>
         <h3 class="process__title">Передача с&nbsp;сопровождением</h3>
-        <p class="process__text">Доставка курьером под расписку или&nbsp;личная выдача в&nbsp;шоуруме — на&nbsp;ваш выбор.</p>
+        <p class="process__text">Передаём часы лично в шоуруме или доставляем курьером.</p>
       </li>
       <li class="process__item rise" style="--d:270ms">
         <span class="process__icon" aria-hidden="true">
@@ -356,7 +320,7 @@
         <span class="btn__fill"></span>
         <span class="btn__label">Оставить заявку</span>
       </button>
-      <span class="final-cta__reassure">Ответим в&nbsp;течение 15&nbsp;минут</span>
+      <span class="final-cta__reassure">Расскажите, какие часы вы ищете</span>
     </div>
   </div>
 </section>
@@ -391,29 +355,22 @@
 
     <div class="footer__col">
       <span class="footer__col-title">Каталог</span>
-      <a href="#collections" class="footer__link">Все дома</a>
-      <a href="#collections" class="footer__link">Новые поступления</a>
+      <a href="#collections" class="footer__link">Коллекции</a>
+      <a href="#collections" class="footer__link">Все модели</a>
       <a href="#trust" class="footer__link">Гарантии</a>
     </div>
 
     <div class="footer__col">
       <span class="footer__col-title">Компания</span>
       <a href="#process" class="footer__link">Как купить</a>
-      <a href="#contact" class="footer__link">Шоурум</a>
-      <a href="#contact" class="footer__link">Контакты</a>
+      <a href="#anatomy" class="footer__link">Критерии проверки</a>
+      <a href="#contact" class="footer__link">Связаться</a>
     </div>
 
     <div class="footer__col footer__col--contact">
       <span class="footer__col-title">Контакты</span>
-      <a href="tel:+70000000000" class="footer__link">+7&nbsp;(000)&nbsp;000-00-00</a>
-      <a href="mailto:hello@mishkin.ru" class="footer__link">hello@mishkin.ru</a>
-      <span class="footer__link footer__link--muted">Москва, по&nbsp;записи</span>
-
-      <div class="footer__social">
-        <a href="#" class="footer__social-link" aria-label="Telegram">TG</a>
-        <a href="#" class="footer__social-link" aria-label="Instagram">IG</a>
-        <a href="#" class="footer__social-link" aria-label="YouTube">YT</a>
-      </div>
+      <p class="footer__contact-note">Обсудите подбор часов с консультантом.</p>
+      <button class="footer__contact-action" type="button" data-open-request>Оставить заявку <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M6 5h9v9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
 
   </div>
@@ -433,7 +390,7 @@
     </button>
 
     <div class="product-modal__media">
-      <img alt="" class="product-modal__img photo" id="productModalImg">
+      <img src="https://images.unsplash.com/photo-1633451238208-11c8e6c1fed4?auto=format&amp;fit=crop&amp;w=1200&amp;h=1500&amp;q=80" alt="Часы выбранной модели" class="product-modal__img photo" id="productModalImg">
     </div>
 
     <div class="product-modal__body">
@@ -468,7 +425,8 @@
 
     <form class="request-form" id="requestForm" novalidate>
       <h3 class="request-form__title" id="requestModalTitle">Оставить заявку</h3>
-      <p class="request-form__sub" id="requestFormSub">Перезвоним и&nbsp;поможем подобрать модель — без&nbsp;навязчивых звонков после.</p>
+      <p class="request-form__sub" id="requestFormSub">Поможем выбрать модель для вашей задачи.</p>
+      <p class="request-form__notice" role="note">Отправка заявок пока не подключена. Не вводите здесь личные данные.</p>
 
       <input type="hidden" name="model" id="requestModelField" value="">
 
@@ -493,12 +451,11 @@
         <span class="btn__fill"></span>
         <span class="btn__label">Отправить заявку</span>
       </button>
-      <span class="request-form__reassure">Мы не&nbsp;передаём данные третьим лицам</span>
     </form>
 
     <div class="request-success" id="requestSuccess" hidden>
-      <h3 class="request-success__title">Заявка принята</h3>
-      <p class="request-success__text">Свяжемся с&nbsp;вами в&nbsp;течение 15&nbsp;минут в&nbsp;рабочее время.</p>
+      <h3 class="request-success__title">Заявка не отправлена</h3>
+      <p class="request-success__text">Форма пока не подключена к сервису приёма заявок. Данные не сохранены.</p>
       <button class="btn btn--outline" type="button" data-close-modal>
         <span class="btn__fill"></span>
         <span class="btn__label">Готово</span>
