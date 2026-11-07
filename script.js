@@ -1,58 +1,6 @@
 (() => {
   'use strict';
 
-  /* -------- custom cursor: metallic reticle, tracks 1:1, no lag -------- */
-  const supportsFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (supportsFinePointer) {
-    document.body.classList.add('has-custom-cursor');
-    const cursor = document.getElementById('cursor');
-
-    window.addEventListener('mousemove', (e) => {
-      cursor.style.transform = `translate3d(${e.clientX - 4}px, ${e.clientY - 3}px, 0)`;
-      cursor.classList.add('is-ready');
-    }, { passive: true });
-
-    const hoverTargets = 'a, button, input, textarea, [role="button"]';
-    document.addEventListener('mouseover', (e) => {
-      if (e.target.closest(hoverTargets)) cursor.classList.add('is-hover');
-    });
-    document.addEventListener('mouseout', (e) => {
-      if (e.target.closest(hoverTargets)) cursor.classList.remove('is-hover');
-    });
-    document.addEventListener('mouseleave', () => { cursor.classList.remove('is-ready'); });
-  }
-
-  /* -------- hero photo: subtle 3D tilt toward the cursor -------- */
-  const heroMedia = document.getElementById('heroMedia');
-  const heroMediaImg = document.getElementById('heroMediaImg');
-
-  if (heroMedia && heroMediaImg && supportsFinePointer) {
-    let ticking = false;
-    let lastX = 0.5, lastY = 0.5;
-
-    const applyTilt = () => {
-      const rotY = (lastX - 0.5) * 14;   // left/right cursor -> Y-axis rotation
-      const rotX = (0.5 - lastY) * 8;    // up/down cursor -> X-axis rotation
-      heroMediaImg.style.transform =
-        `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(1.06)`;
-      ticking = false;
-    };
-
-    heroMedia.addEventListener('mousemove', (e) => {
-      const rect = heroMedia.getBoundingClientRect();
-      lastX = (e.clientX - rect.left) / rect.width;
-      lastY = (e.clientY - rect.top) / rect.height;
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(applyTilt);
-      }
-    }, { passive: true });
-
-    heroMedia.addEventListener('mouseleave', () => {
-      heroMediaImg.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-    });
-  }
-
   /* -------- header state on scroll -------- */
   const header = document.getElementById('header');
   const onScroll = () => {
@@ -60,59 +8,6 @@
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
-
-  /* -------- preloader: page reveal is sequenced after this hides -------- */
-  const preloader = document.getElementById('preloader');
-  const MIN_PRELOAD_MS = 900;
-  const startedAt = Date.now();
-
-  const hidePreloader = () => {
-    const elapsed = Date.now() - startedAt;
-    const wait = Math.max(0, MIN_PRELOAD_MS - elapsed);
-    setTimeout(() => {
-      preloader.classList.add('is-hidden');
-      document.documentElement.classList.remove('is-loading');
-      // the hero's own text/photo entrance only starts once the preloader
-      // is out of the way, so the sequence reads as one continuous reveal
-      document.querySelector('.hero').classList.add('is-in');
-    }, wait);
-  };
-
-  if (document.readyState === 'complete') {
-    hidePreloader();
-  } else {
-    window.addEventListener('load', hidePreloader);
-  }
-
-  /* -------- staggered entrance reveals -------- */
-  const reveal = (el) => el.classList.add('is-in');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        reveal(entry.target);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
-
-  document.querySelectorAll('section').forEach((section) => {
-    if (section.classList.contains('hero')) return;
-    observer.observe(section);
-  });
-
-  // collection cards stagger individually (already carry --d inline)
-  document.querySelectorAll('.collection-card').forEach((card) => {
-    const cardObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-in');
-          cardObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.2 });
-    cardObserver.observe(card);
-  });
 
   /* -------- mobile menu -------- */
   const burger = document.getElementById('burger');
@@ -236,8 +131,8 @@
     document.querySelectorAll('.field.is-invalid').forEach((f) => f.classList.remove('is-invalid'));
     requestModelField.value = modelName || '';
     requestFormSub.textContent = modelName
-      ? `По модели «${modelName}». Перезвоним и\u00A0поможем с\u00A0оформлением.`
-      : 'Перезвоним и\u00A0поможем подобрать модель — без\u00A0навязчивых звонков после.';
+      ? `Вы выбрали модель «${modelName}». Форма пока не подключена.`
+      : 'Форма пока не подключена к приёму заявок.';
   };
 
   document.querySelectorAll('[data-open-request]').forEach((btn) => {
@@ -282,11 +177,11 @@
 
     if (!valid) return;
 
-    // NOTE: no backend is wired up yet — this only simulates a successful
-    // submission client-side. Wire this block to a real endpoint (e.g. your
-    // CRM webhook or a form service) before going live.
+    // No submission endpoint is configured. Keep the response explicit so
+    // the interface never claims that a request was received.
     requestForm.hidden = true;
     requestSuccess.hidden = false;
   });
 })();
+
 
